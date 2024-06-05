@@ -1,0 +1,55 @@
+/*
+面试题 02.07. 链表相交
+        给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
+
+ */
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lenA=0;
+        int lenB=0;
+        ListNode curA = headA;
+        ListNode curB = headB;
+        while(curA!=null){
+            lenA++;
+            curA=curA.next;
+        }
+        while(curB!=null){
+            lenB++;
+            curB=curB.next;
+        }
+        curA = headA;
+        curB = headB;
+
+        if (lenB > lenA) {
+            int tmpLen = lenA;
+            lenA = lenB;
+            lenB = tmpLen;
+            ListNode tmpNode = curA;
+            curA = curB;
+            curB = tmpNode;
+        }
+        int gap = lenA - lenB;
+        while (gap-- > 0) {
+            curA = curA.next;
+        }
+        while (curA != null) {
+            if (curA == curB) {
+                return curA;
+            }
+            curA = curA.next;
+            curB = curB.next;
+        }
+        return null;
+    }
+}

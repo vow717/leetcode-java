@@ -1,0 +1,78 @@
+/*
+给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+
+如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。
+为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。
+如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。
+
+不允许修改 链表。
+ */
+
+/**
+ * Definition for singly-linked list
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        Set<ListNode> set=new HashSet<>();
+        ListNode tmp = head;
+        while(tmp!=null){
+            if(!set.add(tmp)){
+                return tmp;
+            }
+            tmp=tmp.next;
+        }
+        return null;
+    }
+}
+
+/*
+进阶：你是否可以使用 O(1) 空间解决此题？
+这样的话我们创建哈希表就无法完成进阶要求。
+ */
+
+
+//数学证明，把快慢指针第一次相遇时当成新的状态
+//从这个状态开始再来两个速率一样的指针
+//一个从head走，一个从相遇点走
+//这两个指针再相遇的地方就是环的入口
+//那么我们就可以用快慢指针，找到入口.
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode a = head;
+        ListNode b = head;
+        while(b != null && b.next != null){
+            a = a.next;
+            b = b.next.next;
+            if(a == b){
+                ListNode x = head;
+                ListNode y = a;
+                while(x != y){
+                    x = x.next;
+                    y = y.next;
+                }
+                return x;
+            }
+        }
+        return null;
+    }
+}
